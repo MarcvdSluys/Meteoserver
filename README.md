@@ -1,14 +1,14 @@
 # Meteoserver #
 
-A Python module do obtain and read Dutch weather data from Meteoserver.nl.  The code is being developped by
-Marc van der Sluys of the department of Sustainable energy of the HAN University of Applied Sciences in
-Arnhem, the Netherlands.
+A Python module to obtain and read Dutch weather data from Meteoserver.nl.  The code is being developped by
+[Marc van der Sluys](http://han.vandersluys.nl/en/) of the department of Sustainable energy of the HAN
+University of Applied Sciences in Arnhem, the Netherlands.
 
 
 ## Installation ##
 
 This package can be installed using `pip install meteoserver`.  This should automatically install the dependency
-packages `pandas`, `json` and `requests`, if they haven't been installed already.
+packages `pandas` and `requests`, if they haven't been installed already.
 If you are installing by hand, ensure that these packages are installed as well.
 
 You will need to obtain a (free) account and API key at [Meteoserver.nl](https://meteoserver.nl/) to download

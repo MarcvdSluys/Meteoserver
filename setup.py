@@ -2,7 +2,7 @@
 
 """Setup.py for Meteoserver package."""
 
-version="0.0.1"
+version="0.0.2"
 
 import os
 # os.system('rm -rf *.egg-info/')        # Make 'really clean'
@@ -22,7 +22,7 @@ setup(
     url='https://github.com/MarcvdSluys/Meteoserver',
     
     packages=['meteoserver'],
-    install_requires=['pandas','json','requests'],
+    install_requires=['pandas','requests'],
     long_description=long_description,
     long_description_content_type='text/markdown',
     
