@@ -20,16 +20,19 @@ data from the Meteoserver API.
 ```python
 """Example Python script using the Meteoserver module."""
 
-import meteoserver as ms
+import meteoserver as meteo
 
 myKey = 'a123456789'    # My Meteoserver API key - put your OWN key here!
 myLocation = 'De Bilt'  # My location
 
+# Print some help:
+meteo.print_help_zonactueel()
+
 # Read a Meteoserver JSON file from disc:
-# current, forecast = ms.read_json_file_zon('ZonActueel.json')
+# current, forecast = meteo.read_json_file_zon('ZonActueel.json')
 
 # Get Meteoserver Sun data from the server for the given location (and key):
-current, forecast = ms.read_json_url_zon(myKey, myLocation)
+current, forecast = meteo.read_json_url_zon(myKey, myLocation)
 
 # Print the current-weather and forecast dataframes:
 print("\nCurrent Sun/weather observation from a nearby station:")

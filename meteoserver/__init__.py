@@ -25,6 +25,7 @@ page](https://github.com/MarcvdSluys/Meteoserver).
 name = "meteoserver"
 
 from .zonactueel import *
+from .help import *
 
 
 
