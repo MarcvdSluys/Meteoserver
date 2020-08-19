@@ -25,10 +25,30 @@ import meteoserver as meteo
 myKey = 'a123456789'    # My Meteoserver API key - put your OWN key here!
 myLocation = 'De Bilt'  # My location
 
+# Weather forecast #################################################################################
+
+# Print some help:
+meteo.print_help_uurverwachting()
+
+
+# Read weather-forecast data from file:
+# data = meteo.read_json_file_uurverwachting('UurVerwachting1.json')  # Option 1: HARMONIE/HiRLAM (48 (42?) hours)
+# data = meteo.read_json_file_uurverwachting('UurVerwachting2.json')  # Option 2: GFS (4/10 days)
+
+# Get weather-forecast data from server:
+# data = meteo.read_json_url_uurverwachting(myKey, myLocation, model='HARMONIE')  # Option 1: HARMONIE/HiRLAM
+data = meteo.read_json_url_uurverwachting(myKey, myLocation)  # Option 2 (default): GFS
+
+# pd.set_option('display.max_rows', None)  # Print all rows of a Pandas dataframe
+print(data)
+
+
+# Sun forecast #####################################################################################
+
 # Print some help:
 meteo.print_help_zonactueel()
 
-# Read a Meteoserver JSON file from disc:
+# Read a Meteoserver Sun-data JSON file from disc:
 # current, forecast = meteo.read_json_file_zon('ZonActueel.json')
 
 # Get Meteoserver Sun data from the server for the given location (and key):
@@ -37,18 +57,10 @@ current, forecast = meteo.read_json_url_zon(myKey, myLocation)
 # Print the current-weather and forecast dataframes:
 print("\nCurrent Sun/weather observation from a nearby station:")
 print(current)
+
 print("\nSun/weather forecast for the selected location/region:")
 print(forecast)
 
-# Print the forecasts in a nice format:
-print("\nSelected Sun/weather forecast variables in full:")
-print("%10s  %16s  %4s  %3s   %3s  %3s  %3s  %3s" % ('UNIX time', 'Date/time CET', 'Rad', 'Sun', 'Cld', 'LCl', 'MCl', 'HCl'))
-for row in forecast.iterrows():  # Makes (index, Series) pairs out of row
-    # idx = row[0]  # Index
-    ser = row[1]  # Data series
-    
-    # if(float(ser.elev) > 0 and int(ser.sd)==0):
-    print("%10i  %16s  %4i  %3i   %3i  %3i  %3i  %3i" %(int(ser.time), ser.cet, int(ser.gr), int(ser.sd), int(ser.tc), int(ser.lc), int(ser.mc), int(ser.hc)))
 ```
 
 ## Meteoserver pages ##

@@ -13,7 +13,7 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to obtain and read 4-10 day weather-forecast data from Meteoserver.nl.
+"""Functions to obtain and read 2 (HARMONIE) or 4-10 (GFS) day weather-forecast data from Meteoserver.nl.
 """
 
 
@@ -21,23 +21,38 @@
 import pandas as pd
 import json
 import requests
+import sys
 
 
 
-def read_json_url_uurverwachting(key, location):
+def read_json_url_uurverwachting(key, location, model='GFS'):
     """Get weather-forecast data from the Meteoserver server and return them as a dataframe.
     
     Parameters:
         key (string):       The Meteoserver API key.
         location (string):  The name of the location (in the Netherlands) to obtain data for (e.g. 'De Bilt').
+        model (string):     Weather model to use: 'HARMONIE' or 'GFS' (default: GFS)
+                              - HARMONIE: use high-resolution HARMONIE model for BeNeLux and HiRLAM for the rest of
+                                          Europe.  Hourly predictions up to 48 hours in advance.  New data available
+                                          at 5:30, 11:30, 17:30 and 23:30 CE(S)T.
+                              - GFS: use GFS model for BeNeLux.  Hourly predictions for 4 days, then three-hourly
+                                     predictions for the next 10 days.  New data are available at 0:30, 7:30, 12:30 and
+                                     18:30 CE(S)T.
     
     Returns:
         data (df):  Pandas dataframe containing forecast data for the specified location (or region).
     """
     
     # Get online data and return a string containing the json file:
-    dataJSON = requests.get('https://data.meteoserver.nl/api/uurverwachting_gfs.php?locatie='+location+'&key='+key).text
-    
+    if(model == 'GFS'):
+        dataJSON = requests.get('https://data.meteoserver.nl/api/uurverwachting_gfs.php?locatie='+location+'&key='+key).text
+    elif(model == 'HARMONIE'):
+        dataJSON = requests.get('https://data.meteoserver.nl/api/uurverwachting.php?locatie='+location+'&key='+key).text
+    else:
+        print("read_json_url_uurverwachting(): error: unknown model: "+model+'; please choose between HARMONIE and GFS',
+              file=sys.stderr)
+        exit(1)
+        
     # Convert the JSON 'file' to a dictionary with keys 'plaatsnaam' and 'data':
     dataDict = json.loads(dataJSON)  # Note: .loads(), not .load()!
     
