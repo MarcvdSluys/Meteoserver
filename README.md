@@ -7,9 +7,9 @@ University of Applied Sciences in Arnhem, the Netherlands.
 
 ## Installation ##
 
-This package can be installed using `pip install meteoserver`.  This should automatically install the dependency
-packages `pandas` and `requests`, if they haven't been installed already.
-If you are installing by hand, ensure that these packages are installed as well.
+This package can be installed using `pip install meteoserver`.  This should automatically install the
+dependency packages `pandas` and `requests`, if they haven't been installed already.  If you are installing by
+hand, ensure that these packages are installed as well.
 
 You will need to obtain a (free) account and API key at [Meteoserver.nl](https://meteoserver.nl/) to download
 data from the Meteoserver API.
@@ -32,14 +32,17 @@ meteo.print_help_uurverwachting()
 
 
 # Read weather-forecast data from file:
-# data = meteo.read_json_file_uurverwachting('UurVerwachting1.json')  # Option 1: HARMONIE/HiRLAM (48 (42?) hours)
+# data = meteo.read_json_file_uurverwachting('UurVerwachting1.json', full=True)  # Option 1: HARMONIE/HiRLAM (48 (42?) hours)
 # data = meteo.read_json_file_uurverwachting('UurVerwachting2.json')  # Option 2: GFS (4/10 days)
+# data = meteo.read_json_file_uurverwachting('UurVerwachting2.json', full=True)  # Option 2, with ALL columns
 
 # Get weather-forecast data from server:
 # data = meteo.read_json_url_uurverwachting(myKey, myLocation, model='HARMONIE')  # Option 1: HARMONIE/HiRLAM
 data = meteo.read_json_url_uurverwachting(myKey, myLocation)  # Option 2 (default): GFS
+# data = meteo.read_json_url_uurverwachting(myKey, myLocation, full=True)  # Option 2, with ALL columns
 
 # pd.set_option('display.max_rows', None)  # Print all rows of a Pandas dataframe
+# data = meteo.remove_unused_hourly_forecast_columns(data)
 print(data)
 
 

@@ -2,7 +2,7 @@
 
 """Setup.py for Meteoserver package."""
 
-version="0.0.4"
+version="0.0.5"
 
 import os
 # os.system('rm -rf *.egg-info/')        # Make 'really clean'
