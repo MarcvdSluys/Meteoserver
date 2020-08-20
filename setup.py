@@ -4,12 +4,6 @@
 
 version="0.0.5"
 
-import os
-# os.system('rm -rf *.egg-info/')        # Make 'really clean'
-
-# Prevent the setuptools_scm plugin from adding (only) the contents of the git repo to the tarball:
-os.system('mv -f .git .git_temp')
-
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -43,16 +37,4 @@ setup(
         "Topic :: Scientific/Engineering :: Physics",
     ]
 )
-
-# Put git repo back:
-os.system('mv -f .git_temp .git')
-
-# Do some basic checks:
-print("\nPython source files included in tarball:")
-os.system('tar tfz dist/meteoserver-'+version+r'.tar.gz |grep -E "\.py"')
-print()
-
-os.system('twine check dist/meteoserver-'+version+'.tar.gz')
-os.system('twine check dist/meteoserver-'+version+'-py3-none-any.whl')
-print()
 
