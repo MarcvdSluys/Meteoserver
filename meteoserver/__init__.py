@@ -25,7 +25,7 @@ page](https://github.com/MarcvdSluys/Meteoserver).
 name = "meteoserver"
 
 from .uurverwachting import *
-from .zonactueel import *
+from .sundata import *
 from .help import *
 
 

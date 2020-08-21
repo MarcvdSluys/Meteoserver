@@ -53,15 +53,15 @@ meteo.write_json_file_uurverwachting('UurVerwachting3.json', location, data)
 # Sun forecast #####################################################################################
 
 # Print some help:
-meteo.print_help_zonactueel()
+meteo.print_help_sunData()
 
 # Read a Meteoserver Sun-data JSON file from disc:
-# current, forecast = meteo.read_json_file_zon('ZonActueel.json')
-# current, forecast, location = meteo.read_json_file_zon('ZonActueel.json', loc=True)  # Return the location
+# current, forecast = meteo.read_json_file_sunData('SunData.json')
+# current, forecast, location = meteo.read_json_file_sunData('SunData.json', loc=True)  # Return the location
 
 # Get Meteoserver Sun data from the server for the given location (and key):
-# current, forecast = meteo.read_json_url_zon(myKey, myLocation)
-current, forecast, location = meteo.read_json_url_zon(myKey, myLocation, loc=True)  # Return the location
+# current, forecast = meteo.read_json_url_sunData(myKey, myLocation)
+current, forecast, location = meteo.read_json_url_sunData(myKey, myLocation, loc=True)  # Return the location
 
 # Print the current-weather and forecast dataframes:
 print("\nCurrent Sun/weather observation from a nearby station:")
@@ -71,7 +71,7 @@ print("\nSun/weather forecast for the selected location/region:")
 print(forecast)
 
 # Write the downloaded data to a json file:
-meteo.write_json_file_zon('ZonActueel1.json', location, current, forecast)
+meteo.write_json_file_sunData('SunData1.json', location, current, forecast)
 ```
 
 ## Meteoserver pages ##

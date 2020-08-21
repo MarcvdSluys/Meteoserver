@@ -73,8 +73,8 @@ def print_help_uurverwachting():
     print('')
     
     
-def print_help_zonactueel():
-    """Print a brief description for each of the columns for the dataframes containg solar data."""
+def print_help_sunData():
+    """Print a brief description for each of the columns for the dataframes containing solar data."""
     
     print('')
     print('* Columns in current measurements dataframe ("current")')

@@ -13,7 +13,7 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to obtain, read and write sun-forecast data from Meteoserver.nl.
+"""Functions to obtain, read and write sun-forecast ("Zon Actueel") data from Meteoserver.nl.
 """
 
 
@@ -22,9 +22,11 @@ import json
 import requests
 
 
-def read_json_url_zon(key, location, loc=False):
+def read_json_url_sunData(key, location, loc=False):
     """Get the Sun data from the Meteoserver server and return the current-data and forecast dataframes and
        optionally the location name.
+    
+    This uses the "Zon Actueel" Meteoserver API/data.
     
     Parameters:
         key (string):       The Meteoserver API key.
@@ -54,9 +56,11 @@ def read_json_url_zon(key, location, loc=False):
         return current, forecast
 
 
-def read_json_file_zon(fileJSON, loc=False):
+def read_json_file_sunData(fileJSON, loc=False):
     """Read a Meteoserver Sun-data JSON file from disc and return the current-data and forecast dataframes, and
        optionally the location name.
+    
+    This uses the "Zon Actueel" Meteoserver data.
     
     Parameters:
         fileJSNO (string):  The name of the JSON file to read.
@@ -116,7 +120,7 @@ def extract_Sun_dataframes_from_dict(dataDict):
     return location, current, forecast
 
 
-def write_json_file_zon(fileName, location, current, forecast):
+def write_json_file_sunData(fileName, location, current, forecast):
     """Write a Meteoserver sun-forecast-data JSON file to disc.
     
     The resulting file has the same format as a downloaded file (barring some spacing).
