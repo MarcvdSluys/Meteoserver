@@ -43,8 +43,9 @@ def read_json_url_uurverwachting(key, location, model='GFS', full=False, loc=Fal
         loc (bool):         Return the location name as a second return value (default=False).
     
     Returns:
-        data (df):       Pandas dataframe containing forecast data for the specified location (or region).
-        location (str):  The name of the location the data are for (only returned if loc=True).
+        data (df):     Pandas dataframe containing forecast data for the specified location (or region).
+        retLoc (str):  The name of the location the data are for (only returned if loc=True - in this case,
+                       the two return values are returned as a tuple).
     """
     
     # Get online data and return a string containing the json file:
@@ -61,13 +62,13 @@ def read_json_url_uurverwachting(key, location, model='GFS', full=False, loc=Fal
     dataDict = json.loads(dataJSON)  # Note: .loads(), not .load()!
     
     # Get the location name and forecast-data dataframe from the data dictionary:
-    location, data = extract_hourly_forecast_dataframes_from_dict(dataDict)
+    retLoc, data = extract_hourly_forecast_dataframes_from_dict(dataDict)
     
     if(not full):  # Remove obsolescent and duplicate columns:
         data = remove_unused_hourly_forecast_columns(data)
         
     if(loc):
-        return data, location
+        return data, retLoc
     else:
         return data
 
@@ -83,7 +84,8 @@ def read_json_file_uurverwachting(fileJSON, full=False, loc=False):
     
     Returns:
         data (df):       Pandas dataframe containing forecast data for the specified location (or region).
-        location (str):  The name of the location the data are for (only returned if loc=True).
+        location (str):  The name of the location the data are for (only returned if loc=True) - in this case,
+                         the two return values are returned as a tuple).
     """
     
     with open(fileJSON) as dataJSON:
@@ -109,8 +111,10 @@ def extract_hourly_forecast_dataframes_from_dict(dataDict):
         dataDict (dict):  The data dictionary to convert.
     
     Returns:
-        location (str):  Location the data are for.
-        data (df):       Pandas dataframe containing forecast data for the specified location (or region).
+        tuple (str, df):  Tuple containing (location, data):
+        
+          - location (str):  Location the data are for.
+          - data (df):       Pandas dataframe containing forecast data for the specified location (or region).
     """
     
     # print(dataDict.keys())  # Dictionary with keys: ['plaatsnaam' and 'data']
