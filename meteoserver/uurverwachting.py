@@ -25,7 +25,7 @@ import sys
 
 
 
-def read_json_url_uurverwachting(key, location, model='GFS', full=False):
+def read_json_url_uurverwachting(key, location, model='GFS', full=False, loc=False):
     """Get weather-forecast data from the Meteoserver server and return them as a dataframe.
     
     Parameters:
@@ -40,9 +40,11 @@ def read_json_url_uurverwachting(key, location, model='GFS', full=False):
                                      18:30 CE(S)T.
         full (bool):        Return the full dataframe (currently 31 columns).  If false, obsolescent and duplicate 
                             (in non-SI units) columns are removed (currently, 22 columns are returned).  Default: False.
+        loc (bool):         Return the location name as a second return value (default=False).
     
     Returns:
-        data (df):  Pandas dataframe containing forecast data for the specified location (or region).
+        data (df):       Pandas dataframe containing forecast data for the specified location (or region).
+        location (str):  The name of the location the data are for (only returned if loc=True).
     """
     
     # Get online data and return a string containing the json file:
@@ -58,62 +60,73 @@ def read_json_url_uurverwachting(key, location, model='GFS', full=False):
     # Convert the JSON 'file' to a dictionary with keys 'plaatsnaam' and 'data':
     dataDict = json.loads(dataJSON)  # Note: .loads(), not .load()!
     
-    # Get the forecast-data dataframe from the data dictionary:
-    data = extract_hourly_forecast_dataframes_from_dict(dataDict)
+    # Get the location name and forecast-data dataframe from the data dictionary:
+    location, data = extract_hourly_forecast_dataframes_from_dict(dataDict)
     
     if(not full):  # Remove obsolescent and duplicate columns:
         data = remove_unused_hourly_forecast_columns(data)
         
-    return data
+    if(loc):
+        return data, location
+    else:
+        return data
 
 
-def read_json_file_uurverwachting(fileJSON, full=False):
+def read_json_file_uurverwachting(fileJSON, full=False, loc=False):
     """Read a Meteoserver weather-forecast-data JSON file from disc and return the data as a dataframe.
     
     Parameters:
         fileJSNO (string):  The name of the JSON file to read.
         full (bool):        Return the full dataframe (currently 31 columns).  If false, obsolescent and duplicate 
                             (in non-SI units) columns are removed (currently, 22 columns are returned).  Default: False.
+        loc (bool):         Return the location name as a second return value (default=False).
     
     Returns:
-        data (df):  Pandas dataframe containing forecast data for the specified location (or region).
+        data (df):       Pandas dataframe containing forecast data for the specified location (or region).
+        location (str):  The name of the location the data are for (only returned if loc=True).
     """
     
     with open(fileJSON) as dataJSON:
         # Convert the JSON 'file' to a dictionary with keys 'plaatsnaam' and 'data':
         dataDict = json.load(dataJSON)  # Note: .load(), not .loads()!
         
-        # Get the forecast-data dataframe from the data dictionary:
-        data = extract_hourly_forecast_dataframes_from_dict(dataDict)
+        # Get the location name and forecast-data dataframe from the data dictionary:
+        location, data = extract_hourly_forecast_dataframes_from_dict(dataDict)
         
         if(not full):  # Remove obsolescent and duplicate columns:
             data = remove_unused_hourly_forecast_columns(data)
-        
-    return data
+
+    if(loc):
+        return data, location
+    else:
+        return data
 
 
 def extract_hourly_forecast_dataframes_from_dict(dataDict):
-    """Extract the forecast-data Pandas dataframe from a data dictionary.
+    """Extract the location and forecast-data Pandas dataframe from a data dictionary.
     
     Parameters:
         dataDict (dict):  The data dictionary to convert.
     
     Returns:
-        data (df):  Pandas dataframe containing forecast data for the specified location (or region).
+        location (str):  Location the data are for.
+        data (df):       Pandas dataframe containing forecast data for the specified location (or region).
     """
     
     # print(dataDict.keys())  # Dictionary with keys: ['plaatsnaam' and 'data']
     # print(type(dataDict['plaatsnaam']))  # List of 1 dict containing a location name
     # print(type(dataDict['data']), len(dataDict['data']))       # List with (152) forecasts
     
-    # Create Pandas dataframes from lists of dictionaries:
-    # location = pd.DataFrame.from_dict(dataDict['plaatsnaam']).plaats[0]  # List of dict -> df -> str
+    # Create location string from list of dictionaries:
+    location = pd.DataFrame.from_dict(dataDict['plaatsnaam']).plaats[0]  # List of dict -> df -> str
+    
+    # Create Pandas dataframe from list of dictionaries:
     data = pd.DataFrame.from_dict(dataDict['data'])
     
     # print(type(location))
     # print(data)
     
-    return data
+    return location, data
 
 
 def remove_unused_hourly_forecast_columns(dataFrame):
@@ -167,11 +180,13 @@ def remove_unused_hourly_forecast_columns(dataFrame):
 
 
 def write_json_file_uurverwachting(fileName, location, data):
-    """Read a Meteoserver weather-forecast-data JSON file from disc and return the data as a dataframe.
+    """Write a Meteoserver weather-forecast-data JSON file to disc.
+    
+    The resulting file has the same format as a downloaded file (barring some spacing).
     
     Parameters:
-        fileName (string):  The name of the JSON file to be written.
-        location (string):  The name of the location the data are for.
+        fileName (string):  The name of the JSON file to write.
+        location (string):  The location the data are for.
         data (df):          Pandas dataframe containing forecast data for the specified location (or region).
     """
     
@@ -184,12 +199,15 @@ def write_json_file_uurverwachting(fileName, location, data):
     
     # Put the dicts into an enveloping dict:
     fileJSON = {}
+    
+    # Add the location:
     fileJSON['plaatsnaam'] = []
     fileJSON['plaatsnaam'].append(locationDict)
     
+    # Add the data:
     fileJSON['data'] = dataDict
     
-    # Write the dict to file:
+    # Write the resulting dictionary to a json file:
     with open(fileName, 'w') as outFile:
         json.dump(fileJSON, outFile)
     
