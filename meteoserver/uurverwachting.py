@@ -165,3 +165,34 @@ def remove_unused_hourly_forecast_columns(dataFrame):
 
     return dataFrame
 
+
+def write_json_file_uurverwachting(fileName, location, data):
+    """Read a Meteoserver weather-forecast-data JSON file from disc and return the data as a dataframe.
+    
+    Parameters:
+        fileName (string):  The name of the JSON file to be written.
+        location (string):  The name of the location the data are for.
+        data (df):          Pandas dataframe containing forecast data for the specified location (or region).
+    """
+    
+    # Convert location string into a dict:
+    locationDict = {}
+    locationDict['plaats'] = location
+    
+    # Convert data dataframe into a dict:
+    dataDict = data.to_dict(orient='records')
+    
+    # Put the dicts into an enveloping dict:
+    fileJSON = {}
+    fileJSON['plaatsnaam'] = []
+    fileJSON['plaatsnaam'].append(locationDict)
+    
+    fileJSON['data'] = dataDict
+    
+    # Write the dict to file:
+    with open(fileName, 'w') as outFile:
+        json.dump(fileJSON, outFile)
+    
+    return
+
+

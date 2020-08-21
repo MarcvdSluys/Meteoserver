@@ -45,6 +45,10 @@ data = meteo.read_json_url_uurverwachting(myKey, myLocation)  # Option 2 (defaul
 # data = meteo.remove_unused_hourly_forecast_columns(data)
 print(data)
 
+# Write the downloaded data to a json file:
+meteo.write_json_file_uurverwachting('UurVerwachting2a.json', 'De Bilt', data)
+
+
 
 # Sun forecast #####################################################################################
 
