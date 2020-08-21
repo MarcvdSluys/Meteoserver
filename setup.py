@@ -2,7 +2,7 @@
 
 """Setup.py for Meteoserver package."""
 
-version="0.0.6"
+version="0.0.7"
 
 with open("README.md", "r") as fh:
     long_description = fh.read()

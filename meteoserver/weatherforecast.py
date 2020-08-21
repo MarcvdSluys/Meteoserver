@@ -13,9 +13,9 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to obtain, read and write 2 (HARMONIE) or 4-10 (GFS) day weather-forecast data from Meteoserver.nl.
+"""Functions to obtain, read and write 2 (HARMONIE) or 4-10 (GFS) day hourly weather-forecast
+   ("Uurverwachting") data from Meteoserver.nl.
 """
-
 
 
 import pandas as pd
@@ -25,8 +25,10 @@ import sys
 
 
 
-def read_json_url_uurverwachting(key, location, model='GFS', full=False, loc=False):
-    """Get weather-forecast data from the Meteoserver server and return them as a dataframe.
+def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=False):
+    """Get hourly weather-forecast data from the Meteoserver server and return them as a dataframe.
+    
+    This uses the "Uurverwachting" Meteoserver API/data.
     
     Parameters:
         key (string):       The Meteoserver API key.
@@ -54,7 +56,7 @@ def read_json_url_uurverwachting(key, location, model='GFS', full=False, loc=Fal
     elif(model == 'HARMONIE'):
         dataJSON = requests.get('https://data.meteoserver.nl/api/uurverwachting.php?locatie='+location+'&key='+key).text
     else:
-        print("read_json_url_uurverwachting(): error: unknown model: "+model+'; please choose between HARMONIE and GFS',
+        print("read_json_url_weatherforecast(): error: unknown model: "+model+'; please choose between HARMONIE and GFS',
               file=sys.stderr)
         exit(1)
         
@@ -73,8 +75,10 @@ def read_json_url_uurverwachting(key, location, model='GFS', full=False, loc=Fal
         return data
 
 
-def read_json_file_uurverwachting(fileJSON, full=False, loc=False):
+def read_json_file_weatherforecast(fileJSON, full=False, loc=False):
     """Read a Meteoserver weather-forecast-data JSON file from disc and return the data as a dataframe.
+    
+    This uses the "Uurverwachting" Meteoserver data.
     
     Parameters:
         fileJSNO (string):  The name of the JSON file to read.
@@ -183,7 +187,7 @@ def remove_unused_hourly_forecast_columns(dataFrame):
     return dataFrame
 
 
-def write_json_file_uurverwachting(fileName, location, data):
+def write_json_file_weatherforecast(fileName, location, data):
     """Write a Meteoserver weather-forecast-data JSON file to disc.
     
     The resulting file has the same format as a downloaded file (barring some spacing).

@@ -13,7 +13,8 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to obtain, read and write sun-forecast ("Zon Actueel") data from Meteoserver.nl.
+"""Functions to obtain, read and write four-day sun-forecast ("Zon Actueel") data from Meteoserver.nl.
+
 """
 
 

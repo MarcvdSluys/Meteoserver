@@ -15,16 +15,17 @@
 
 """Meteoserver module
 
-Meteoserver contains a Python module to obtain and read Dutch weather data from Meteoserver.nl.  Meteoserver
-can be used under the conditions of the GPLv3 licence.  These pages contain the API documentation.  For more
-information on the Python package, licence and source code, see the [Meteoserver GitHub
-page](https://github.com/MarcvdSluys/Meteoserver).
+Meteoserver contains a Python module to obtain and read Dutch weather data from Meteoserver.nl.  The
+meteoserver package can be used under the conditions of the GPLv3 licence.  These pages contain the API
+documentation.  For more information on the Python package, licence and source code, see the [Meteoserver
+GitHub page](https://github.com/MarcvdSluys/Meteoserver).
+
 """
 
 
 name = "meteoserver"
 
-from .uurverwachting import *
+from .weatherforecast import *
 from .sundata import *
 from .help import *
 

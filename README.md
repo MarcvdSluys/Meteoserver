@@ -28,25 +28,25 @@ myLocation = 'De Bilt'  # My location
 # Weather forecast #################################################################################
 
 # Print some help:
-meteo.print_help_uurverwachting()
+meteo.print_help_weatherforecast()
 
 location = 'Unknown'  # Ensure we always have a location 'name' to write to file.
 
 # Read weather-forecast data from file:
-# data = meteo.read_json_file_uurverwachting('UurVerwachting1.json', full=True)  # Option 1: HARMONIE/HiRLAM (48 (42?) hours)
-# data = meteo.read_json_file_uurverwachting('UurVerwachting2.json')  # Option 2: GFS (4/10 days), useful columns only, no location
-# data, location = meteo.read_json_file_uurverwachting('UurVerwachting2.json', full=True, loc=True)  # Option 2, with ALL columns and location
+# data = meteo.read_json_file_weatherforecast('WeatherForecast1.json', full=True)  # Option 1: HARMONIE/HiRLAM (48 (42?) hours)
+# data = meteo.read_json_file_weatherforecast('WeatherForecast2.json')  # Option 2: GFS (4/10 days), useful columns only, no location
+# data, location = meteo.read_json_file_weatherforecast('WeatherForecast2.json', full=True, loc=True)  # Option 2, with ALL columns and location
 
 # Get weather-forecast data from server:
-# data = meteo.read_json_url_uurverwachting(myKey, myLocation, model='HARMONIE')  # Option 1: HARMONIE/HiRLAM
-# data = meteo.read_json_url_uurverwachting(myKey, myLocation)  # Option 2 (default): GFS, useful columns only, no location
-data, location = meteo.read_json_url_uurverwachting(myKey, myLocation, full=True, loc=True)  # Option 2, with ALL columns and location
+# data = meteo.read_json_url_weatherforecast(myKey, myLocation, model='HARMONIE')  # Option 1: HARMONIE/HiRLAM
+# data = meteo.read_json_url_weatherforecast(myKey, myLocation)  # Option 2 (default): GFS, useful columns only, no location
+data, location = meteo.read_json_url_weatherforecast(myKey, myLocation, full=True, loc=True)  # Option 2, with ALL columns and location
 
 # Print the data:
 print(data)
 
 # Write the downloaded data to a json file:
-meteo.write_json_file_uurverwachting('UurVerwachting3.json', location, data)
+meteo.write_json_file_weatherforecast('WeatherForecast3.json', location, data)
 
 
 

@@ -17,7 +17,7 @@
 """
 
 
-def print_help_uurverwachting():
+def print_help_weatherforecast():
     print('')
     print('* Columns in forecast dataframe ("data")')
     print('')
