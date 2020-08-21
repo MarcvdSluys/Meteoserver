@@ -22,18 +22,21 @@ import json
 import requests
 
 
-def read_json_url_zon(key, location):
-    """Get the Sun data from the Meteoserver server and return the current-data and forecast dataframes.
+def read_json_url_zon(key, location, loc=False):
+    """Get the Sun data from the Meteoserver server and return the current-data and forecast dataframes and
+       optionally the location name.
     
     Parameters:
         key (string):       The Meteoserver API key.
         location (string):  The name of the location (in the Netherlands) to obtain data for (e.g. 'De Bilt').
+        loc (bool):         Return the location name as a third return value (default=False).
     
     Returns:
-        tuple (df, df):  Tuple containing (current, forecast):
+        tuple (df, df (,str)):  Tuple containing (current, forecast (, location)):
     
           - current (df):   Pandas dataframe containing current-weather data from a nearby station.
           - forecast (df):  Pandas dataframe containing forecast data for the specified location (or region?).
+          - retLoc (str):   The name of the location the data are for (only returned if loc=True).
     """
     
     # Get online data and return a string containing the json file:
@@ -43,44 +46,55 @@ def read_json_url_zon(key, location):
     dataDict = json.loads(dataJSON)  # Note: .loads(), not .load()!
     
     # Get the current-data and forecast dataframes from the data dictionary:
-    current, forecast = extract_Sun_dataframes_from_dict(dataDict)
+    retLoc, current, forecast = extract_Sun_dataframes_from_dict(dataDict)
     
-    return current, forecast
+    if(loc):
+        return current, forecast, retLoc
+    else:
+        return current, forecast
 
 
-def read_json_file_zon(fileJSON):
-    """Read a Meteoserver Sun-data JSON file from disc and return the current-data and forecast dataframes.
+def read_json_file_zon(fileJSON, loc=False):
+    """Read a Meteoserver Sun-data JSON file from disc and return the current-data and forecast dataframes, and
+       optionally the location name.
     
     Parameters:
         fileJSNO (string):  The name of the JSON file to read.
+        loc (bool):         Return the location name as a third return value (default=False).
     
     Returns:
-        tuple (df, df):  Tuple containing (current, forecast):
+        tuple (df, df (,str)):  Tuple containing (current, forecast (, location)):
     
           - current (df):   Pandas dataframe containing current-weather data from a nearby station.
           - forecast (df):  Pandas dataframe containing forecast data for the specified location (or region?).
+          - location (str): The location the data are for.
+
     """
     
     with open(fileJSON) as dataJSON:
         # Convert the JSON 'file' to a dictionary with keys 'plaatsnaam', 'current' and 'forecast':
         dataDict = json.load(dataJSON)  # Note: .load(), not .loads()!
         
-        # Get the current-data and forecast dataframes from the data dictionary:
-        current, forecast = extract_Sun_dataframes_from_dict(dataDict)
+        # Get the location, current-data and forecast dataframes from the data dictionary:
+        location, current, forecast = extract_Sun_dataframes_from_dict(dataDict)
         
-    return current, forecast
+    if(loc):
+        return current, forecast, location
+    else:
+        return current, forecast
 
 
 def extract_Sun_dataframes_from_dict(dataDict):
-    """Extract the current-data and forecast Pandas dataframes from a data dictionary.
+    """Extract the location name, current-data and forecast Pandas dataframes from a data dictionary.
     
     Parameters:
         dataDict (dict):  The name of the data dictionary to convert.
     
     Returns:
-        tuple (df, df):  Tuple containing (current, forecast):
+        tuple (str, df, df):  Tuple containing (location, current, forecast):
     
           - current (df):   Pandas dataframe containing current-weather data from a nearby station.
+          - forecast (df):  Pandas dataframe containing forecast data for the specified location (or region?).
           - forecast (df):  Pandas dataframe containing forecast data for the specified location (or region?).
     """
     
@@ -92,13 +106,14 @@ def extract_Sun_dataframes_from_dict(dataDict):
     #     print("%i  %s  %4i  %2i  %3i" %(int(item['time']), item['cet'], int(item['gr']), int(item['sd']), int(item['tc'])))
         
     # Create Pandas dataframes from lists of dictionaries:
+    location = pd.DataFrame.from_dict(dataDict['plaatsnaam']).plaats[0]  # List of dict -> df -> str
     current = pd.DataFrame.from_dict(dataDict['current'])
     forecast = pd.DataFrame.from_dict(dataDict['forecast'])
     
     # print(current)
     # print(forecast)
     
-    return current, forecast
+    return location, current, forecast
 
 
 def write_json_file_zon(fileName, location, current, forecast):
