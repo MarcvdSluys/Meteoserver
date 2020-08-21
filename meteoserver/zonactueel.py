@@ -13,7 +13,7 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to obtain and read solar data from Meteoserver.nl.
+"""Functions to obtain, read and write sun-forecast data from Meteoserver.nl.
 """
 
 
@@ -99,5 +99,47 @@ def extract_Sun_dataframes_from_dict(dataDict):
     # print(forecast)
     
     return current, forecast
+
+
+def write_json_file_zon(fileName, location, current, forecast):
+    """Write a Meteoserver sun-forecast-data JSON file to disc.
+    
+    The resulting file has the same format as a downloaded file (barring some spacing).
+    
+    Parameters:
+        fileName (string):  The name of the JSON file to write.
+        location (string):  The location the data are for.
+        current (df):       Pandas dataframe containing current/recent measurements for the specified location (or region).
+        forecast (df):      Pandas dataframe containing sun forecast data for the specified location (or region).
+    """
+    
+    # Convert location string into a dict:
+    locationDict = {}
+    locationDict['plaats'] = location
+    
+    # Convert current dataframe into a dict:
+    currentDict = current.to_dict(orient='records')
+    
+    # Convert forecast dataframe into a dict:
+    forecastDict = forecast.to_dict(orient='records')
+    
+    # Put the dicts into an enveloping dict:
+    fileJSON = {}
+    
+    # Add the location:
+    fileJSON['plaatsnaam'] = []
+    fileJSON['plaatsnaam'].append(locationDict)
+    
+    # Add the current measurements:
+    fileJSON['current'] = currentDict
+    
+    # Add the forecast data:
+    fileJSON['forecast'] = forecastDict
+    
+    # Write the resulting dictionary to a json file:
+    with open(fileName, 'w') as outFile:
+        json.dump(fileJSON, outFile)
+    
+    return
 
 

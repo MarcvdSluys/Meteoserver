@@ -13,7 +13,7 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to obtain and read 2 (HARMONIE) or 4-10 (GFS) day weather-forecast data from Meteoserver.nl.
+"""Functions to obtain, read and write 2 (HARMONIE) or 4-10 (GFS) day weather-forecast data from Meteoserver.nl.
 """
 
 
