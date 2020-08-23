@@ -21,7 +21,6 @@
 import pandas as pd
 import json
 import requests
-# import datetime as dt
 
 
 def read_json_url_sunData(key, location, loc=False):
@@ -118,6 +117,14 @@ def extract_Sun_dataframes_from_dict(dataDict):
     # Convert the 'current' list of dictionaries to Pandas dataframe, and its elements to numeric types:
     current = pd.DataFrame.from_dict(dataDict['current'])
     
+    # Add date from 'cet' column to sunrise and sunset (while 'cet' is still a string):
+    current.sr = current.cet.str.slice(0,10) + ' ' + current.sr       # Create a string from the first 10 characters of the date + space + time
+    current.sr = pd.to_datetime(current.sr, format='%d-%m-%Y %H:%M')  # String -> datetime
+    
+    current.ss = current.cet.str.slice(0,10) + ' ' + current.ss       # Create a string from the first 10 characters of the date + space + time
+    current.ss = pd.to_datetime(current.ss, format='%d-%m-%Y %H:%M')  # String -> datetime
+    
+    
     current.time = pd.to_numeric(current.time).values
     current.cet  = pd.to_datetime(current.cet, format='%d-%m-%Y %H:%M')
     current.elev = pd.to_numeric(current.elev).values
@@ -128,8 +135,6 @@ def extract_Sun_dataframes_from_dict(dataDict):
     current.tc   = pd.to_numeric(current.tc).values
     current.vis  = pd.to_numeric(current.vis).values
     current.prec = pd.to_numeric(current.prec).values
-    # current.sr = dt.time(pd.to_datetime(current.sr, format='%H:%M'))  # Sets date to 1900-01-01
-    # current.ss = dt.time(pd.to_datetime(current.ss, format='%H:%M'))  # Sets date to 1900-01-01
     
     # print(current)
     
