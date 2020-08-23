@@ -21,6 +21,7 @@
 import pandas as pd
 import json
 import requests
+# import datetime as dt
 
 
 def read_json_url_sunData(key, location, loc=False):
@@ -110,12 +111,46 @@ def extract_Sun_dataframes_from_dict(dataDict):
     # for item in dataDict['forecast']:    # Dictionary with forecast data
     #     print("%i  %s  %4i  %2i  %3i" %(int(item['time']), item['cet'], int(item['gr']), int(item['sd']), int(item['tc'])))
         
-    # Create Pandas dataframes from lists of dictionaries:
+    # Convert the 'plaatsnaam' list of dictionaries to a string containing the location name:
     location = pd.DataFrame.from_dict(dataDict['plaatsnaam']).plaats[0]  # List of dict -> df -> str
+    
+    
+    # Convert the 'current' list of dictionaries to Pandas dataframe, and its elements to numeric types:
     current = pd.DataFrame.from_dict(dataDict['current'])
-    forecast = pd.DataFrame.from_dict(dataDict['forecast'])
+    
+    current.time = pd.to_numeric(current.time).values
+    current.cet  = pd.to_datetime(current.cet, format='%d-%m-%Y %H:%M')
+    current.elev = pd.to_numeric(current.elev).values
+    current.az   = pd.to_numeric(current.az).values
+    current.temp = pd.to_numeric(current.temp).values
+    current.gr   = pd.to_numeric(current.gr).values
+    current.sd   = pd.to_numeric(current.sd).values
+    current.tc   = pd.to_numeric(current.tc).values
+    current.vis  = pd.to_numeric(current.vis).values
+    current.prec = pd.to_numeric(current.prec).values
+    # current.sr = dt.time(pd.to_datetime(current.sr, format='%H:%M'))  # Sets date to 1900-01-01
+    # current.ss = dt.time(pd.to_datetime(current.ss, format='%H:%M'))  # Sets date to 1900-01-01
     
     # print(current)
+    
+    
+    # Convert the 'forecast' list of dictionaries to Pandas dataframe, and its elements to numeric types:
+    forecast = pd.DataFrame.from_dict(dataDict['forecast'])
+    
+    forecast.time = pd.to_numeric(forecast.time).values
+    forecast.cet  = pd.to_datetime(forecast.cet, format='%d-%m-%Y %H:%M')
+    forecast.elev = pd.to_numeric(forecast.elev).values
+    forecast.az   = pd.to_numeric(forecast.az).values
+    forecast.temp = pd.to_numeric(forecast.temp).values
+    forecast.gr   = pd.to_numeric(forecast.gr).values
+    forecast.sd   = pd.to_numeric(forecast.sd).values
+    forecast.tc   = pd.to_numeric(forecast.tc).values
+    forecast.lc   = pd.to_numeric(forecast.lc).values
+    forecast.mc   = pd.to_numeric(forecast.mc).values
+    forecast.hc   = pd.to_numeric(forecast.hc).values
+    forecast.vis  = pd.to_numeric(forecast.vis).values
+    forecast.prec = pd.to_numeric(forecast.prec).values
+    
     # print(forecast)
     
     return location, current, forecast

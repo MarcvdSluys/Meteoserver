@@ -1,13 +1,16 @@
 #!/bin/env python3
 
-"""Setup.py for Meteoserver package."""
+"""Setup.py for the Meteoserver Python package."""
 
-version="0.0.7"
 
+# Package version:
+version="0.0.8"
+
+# Get long description from README.md:
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-
+# Set package properties:
 from setuptools import setup
 setup(
     name='meteoserver',
