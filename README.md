@@ -57,11 +57,13 @@ meteo.print_help_sunData()
 
 # Read a Meteoserver Sun-data JSON file from disc:
 # current, forecast = meteo.read_json_file_sunData('SunData.json')
-# current, forecast, location = meteo.read_json_file_sunData('SunData.json', loc=True)  # Return the location
+# Return the location; don't convert to numerical format, to allow writing to file later:
+# current, forecast, location = meteo.read_json_file_sunData('SunData.json', loc=True, numeric=False)
 
 # Get Meteoserver Sun data from the server for the given location (and key):
 # current, forecast = meteo.read_json_url_sunData(myKey, myLocation)
-current, forecast, location = meteo.read_json_url_sunData(myKey, myLocation, loc=True)  # Return the location
+# Return the location; don't convert to numerical format, to allow writing to file later:
+current, forecast, location = meteo.read_json_url_sunData(myKey, myLocation, loc=True, numeric=False)
 
 # Print the current-weather and forecast dataframes:
 print("\nCurrent Sun/weather observation from a nearby station:")

@@ -23,7 +23,7 @@ import json
 import requests
 
 
-def read_json_url_sunData(key, location, loc=False):
+def read_json_url_sunData(key, location, loc=False, numeric=True):
     """Get the Sun data from the Meteoserver server and return the current-data and forecast dataframes and
        optionally the location name.
     
@@ -33,6 +33,9 @@ def read_json_url_sunData(key, location, loc=False):
         key (string):       The Meteoserver API key.
         location (string):  The name of the location (in the Netherlands) to obtain data for (e.g. 'De Bilt').
         loc (bool):         Return the location name as a third return value (default=False).
+        numeric (bool):     Convert dataframe content from strings to numeric/datetime format (default=True).
+                            Set this to False if you intend to write a JSON file that is (nearly) identical
+                            to the original format.
     
     Returns:
         tuple (df, df (,str)):  Tuple containing (current, forecast (, location)):
@@ -49,7 +52,7 @@ def read_json_url_sunData(key, location, loc=False):
     dataDict = json.loads(dataJSON)  # Note: .loads(), not .load()!
     
     # Get the current-data and forecast dataframes from the data dictionary:
-    retLoc, current, forecast = extract_Sun_dataframes_from_dict(dataDict)
+    retLoc, current, forecast = extract_Sun_dataframes_from_dict(dataDict, numeric)
     
     if(loc):
         return current, forecast, retLoc
@@ -57,7 +60,7 @@ def read_json_url_sunData(key, location, loc=False):
         return current, forecast
 
 
-def read_json_file_sunData(fileJSON, loc=False):
+def read_json_file_sunData(fileJSON, loc=False, numeric=True):
     """Read a Meteoserver Sun-data JSON file from disc and return the current-data and forecast dataframes, and
        optionally the location name.
     
@@ -66,6 +69,9 @@ def read_json_file_sunData(fileJSON, loc=False):
     Parameters:
         fileJSNO (string):  The name of the JSON file to read.
         loc (bool):         Return the location name as a third return value (default=False).
+        numeric (bool):     Convert dataframe content from strings to numeric/datetime format (default=True).
+                            Set this to False if you intend to write a JSON file that is (nearly) identical
+                            to the original format.
     
     Returns:
         tuple (df, df (,str)):  Tuple containing (current, forecast (, location)):
@@ -81,7 +87,7 @@ def read_json_file_sunData(fileJSON, loc=False):
         dataDict = json.load(dataJSON)  # Note: .load(), not .loads()!
         
         # Get the location, current-data and forecast dataframes from the data dictionary:
-        location, current, forecast = extract_Sun_dataframes_from_dict(dataDict)
+        location, current, forecast = extract_Sun_dataframes_from_dict(dataDict, numeric)
         
     if(loc):
         return current, forecast, location
@@ -89,11 +95,14 @@ def read_json_file_sunData(fileJSON, loc=False):
         return current, forecast
 
 
-def extract_Sun_dataframes_from_dict(dataDict):
+def extract_Sun_dataframes_from_dict(dataDict, numeric=True):
     """Extract the location name, current-data and forecast Pandas dataframes from a data dictionary.
     
     Parameters:
         dataDict (dict):  The name of the data dictionary to convert.
+        numeric (bool):   Convert dataframe content from strings to numeric/datetime format (default=True).
+                          Set this to False if you intend to write a JSON file that is (nearly) identical
+                          to the original format.
     
     Returns:
         tuple (str, df, df):  Tuple containing (location, current, forecast):
@@ -114,47 +123,51 @@ def extract_Sun_dataframes_from_dict(dataDict):
     location = pd.DataFrame.from_dict(dataDict['plaatsnaam']).plaats[0]  # List of dict -> df -> str
     
     
-    # Convert the 'current' list of dictionaries to Pandas dataframe, and its elements to numeric types:
+    # Convert the 'current' list of dictionaries to Pandas dataframe:
     current = pd.DataFrame.from_dict(dataDict['current'])
     
-    # Add date from 'cet' column to sunrise and sunset (while 'cet' is still a string):
-    current.sr = current.cet.str.slice(0,10) + ' ' + current.sr       # Create a string from the first 10 characters of the date + space + time
-    current.sr = pd.to_datetime(current.sr, format='%d-%m-%Y %H:%M')  # String -> datetime
-    
-    current.ss = current.cet.str.slice(0,10) + ' ' + current.ss       # Create a string from the first 10 characters of the date + space + time
-    current.ss = pd.to_datetime(current.ss, format='%d-%m-%Y %H:%M')  # String -> datetime
-    
-    
-    current.time = pd.to_numeric(current.time).values
-    current.cet  = pd.to_datetime(current.cet, format='%d-%m-%Y %H:%M')
-    current.elev = pd.to_numeric(current.elev).values
-    current.az   = pd.to_numeric(current.az).values
-    current.temp = pd.to_numeric(current.temp).values
-    current.gr   = pd.to_numeric(current.gr).values
-    current.sd   = pd.to_numeric(current.sd).values
-    current.tc   = pd.to_numeric(current.tc).values
-    current.vis  = pd.to_numeric(current.vis).values
-    current.prec = pd.to_numeric(current.prec).values
+    # Convert the df elements to numeric/datetime types:
+    if(numeric):
+        # Add date from 'cet' column to sunrise and sunset (while 'cet' is still a string):
+        current.sr = current.cet.str.slice(0,10) + ' ' + current.sr       # Create a string from the first 10 characters of the date + space + time
+        current.sr = pd.to_datetime(current.sr, format='%d-%m-%Y %H:%M')  # String -> datetime
+        
+        current.ss = current.cet.str.slice(0,10) + ' ' + current.ss       # Create a string from the first 10 characters of the date + space + time
+        current.ss = pd.to_datetime(current.ss, format='%d-%m-%Y %H:%M')  # String -> datetime
+        
+        
+        current.time = pd.to_numeric(current.time).values
+        current.cet  = pd.to_datetime(current.cet, format='%d-%m-%Y %H:%M')
+        current.elev = pd.to_numeric(current.elev).values
+        current.az   = pd.to_numeric(current.az).values
+        current.temp = pd.to_numeric(current.temp).values
+        current.gr   = pd.to_numeric(current.gr).values
+        current.sd   = pd.to_numeric(current.sd).values
+        current.tc   = pd.to_numeric(current.tc).values
+        current.vis  = pd.to_numeric(current.vis).values
+        current.prec = pd.to_numeric(current.prec).values
     
     # print(current)
     
     
-    # Convert the 'forecast' list of dictionaries to Pandas dataframe, and its elements to numeric types:
+    # Convert the 'forecast' list of dictionaries to Pandas dataframe:
     forecast = pd.DataFrame.from_dict(dataDict['forecast'])
     
-    forecast.time = pd.to_numeric(forecast.time).values
-    forecast.cet  = pd.to_datetime(forecast.cet, format='%d-%m-%Y %H:%M')
-    forecast.elev = pd.to_numeric(forecast.elev).values
-    forecast.az   = pd.to_numeric(forecast.az).values
-    forecast.temp = pd.to_numeric(forecast.temp).values
-    forecast.gr   = pd.to_numeric(forecast.gr).values
-    forecast.sd   = pd.to_numeric(forecast.sd).values
-    forecast.tc   = pd.to_numeric(forecast.tc).values
-    forecast.lc   = pd.to_numeric(forecast.lc).values
-    forecast.mc   = pd.to_numeric(forecast.mc).values
-    forecast.hc   = pd.to_numeric(forecast.hc).values
-    forecast.vis  = pd.to_numeric(forecast.vis).values
-    forecast.prec = pd.to_numeric(forecast.prec).values
+    # Convert the df elements to numeric/datetime types:
+    if(numeric):
+        forecast.time = pd.to_numeric(forecast.time).values
+        forecast.cet  = pd.to_datetime(forecast.cet, format='%d-%m-%Y %H:%M')
+        forecast.elev = pd.to_numeric(forecast.elev).values
+        forecast.az   = pd.to_numeric(forecast.az).values
+        forecast.temp = pd.to_numeric(forecast.temp).values
+        forecast.gr   = pd.to_numeric(forecast.gr).values
+        forecast.sd   = pd.to_numeric(forecast.sd).values
+        forecast.tc   = pd.to_numeric(forecast.tc).values
+        forecast.lc   = pd.to_numeric(forecast.lc).values
+        forecast.mc   = pd.to_numeric(forecast.mc).values
+        forecast.hc   = pd.to_numeric(forecast.hc).values
+        forecast.vis  = pd.to_numeric(forecast.vis).values
+        forecast.prec = pd.to_numeric(forecast.prec).values
     
     # print(forecast)
     
@@ -197,9 +210,22 @@ def write_json_file_sunData(fileName, location, current, forecast):
     fileJSON['forecast'] = forecastDict
     
     # Write the resulting dictionary to a json file:
-    with open(fileName, 'w') as outFile:
-        json.dump(fileJSON, outFile)
-    
+    fileJSON = json.dumps(fileJSON, indent=None, separators=(',',':'), default=str)  # Create a JSON string, even with non-serialisable Timestamps - https://stackoverflow.com/a/36142844/1386750.  This adds " and ecapes existing ones.
+    outFile = open(fileName,'w')
+    outFile.write(fileJSON+'\n')            # Needs '\n' for EoL
+    outFile.close()
     return
 
+    # with open(fileName, 'w') as outFile:
+    #     try:
+    #         json.dump(fileJSON, outFile)
+    #     except Exception as e:
+    #         print("An error occurred when creating the JSON output file "+fileName+": ", end='')
+    #         print(e)
+    #         print("Did you forget to specify 'numeric=False' when reading the solar data?")
+    #         print("Aborting.")
+    #         exit(1)
+    #         
+    # return
+    
 
