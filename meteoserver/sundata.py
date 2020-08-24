@@ -95,7 +95,7 @@ def read_json_file_sunData(fileJSON, loc=False, numeric=True):
         return current, forecast
 
 
-def extract_Sun_dataframes_from_dict(dataDict, numeric=True):
+def extract_Sun_dataframes_from_dict(dataDict, numeric):
     """Extract the location name, current-data and forecast Pandas dataframes from a data dictionary.
     
     Parameters:
@@ -212,7 +212,7 @@ def write_json_file_sunData(fileName, location, current, forecast):
     # Write the resulting dictionary to a json file:
     fileJSON = json.dumps(fileJSON, indent=None, separators=(',',':'), default=str)  # Create a JSON string, even with non-serialisable Timestamps - https://stackoverflow.com/a/36142844/1386750.  This adds " and ecapes existing ones.
     outFile = open(fileName,'w')
-    outFile.write(fileJSON+'\n')            # Needs '\n' for EoL
+    outFile.write(fileJSON+'\n') # Needs '\n' to match server version.
     outFile.close()
     return
 

@@ -25,7 +25,7 @@ import sys
 
 
 
-def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=False):
+def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=False, numeric=True):
     """Get hourly weather-forecast data from the Meteoserver server and return them as a dataframe.
     
     This uses the "Uurverwachting" Meteoserver API/data.
@@ -43,6 +43,9 @@ def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=Fa
         full (bool):        Return the full dataframe (currently 31 columns).  If false, obsolescent and duplicate 
                             (in non-SI units) columns are removed (currently, 22 columns are returned).  Default: False.
         loc (bool):         Return the location name as a second return value (default=False).
+        numeric (bool):     Convert dataframe content from strings to numeric/datetime format (default=True).
+                            Set this to False if you intend to write a JSON file that is (nearly) identical
+                            to the original format.
     
     Returns:
         data (df):     Pandas dataframe containing forecast data for the specified location (or region).
@@ -64,7 +67,7 @@ def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=Fa
     dataDict = json.loads(dataJSON)  # Note: .loads(), not .load()!
     
     # Get the location name and forecast-data dataframe from the data dictionary:
-    retLoc, data = extract_hourly_forecast_dataframes_from_dict(dataDict)
+    retLoc, data = extract_hourly_forecast_dataframes_from_dict(dataDict, numeric)
     
     if(not full):  # Remove obsolescent and duplicate columns:
         data = remove_unused_hourly_forecast_columns(data)
@@ -75,7 +78,7 @@ def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=Fa
         return data
 
 
-def read_json_file_weatherforecast(fileJSON, full=False, loc=False):
+def read_json_file_weatherforecast(fileJSON, full=False, loc=False, numeric=True):
     """Read a Meteoserver weather-forecast-data JSON file from disc and return the data as a dataframe.
     
     This uses the "Uurverwachting" Meteoserver data.
@@ -85,6 +88,9 @@ def read_json_file_weatherforecast(fileJSON, full=False, loc=False):
         full (bool):        Return the full dataframe (currently 31 columns).  If false, obsolescent and duplicate 
                             (in non-SI units) columns are removed (currently, 22 columns are returned).  Default: False.
         loc (bool):         Return the location name as a second return value (default=False).
+        numeric (bool):     Convert dataframe content from strings to numeric/datetime format (default=True).
+                            Set this to False if you intend to write a JSON file that is (nearly) identical
+                            to the original format.
     
     Returns:
         data (df):       Pandas dataframe containing forecast data for the specified location (or region).
@@ -97,7 +103,7 @@ def read_json_file_weatherforecast(fileJSON, full=False, loc=False):
         dataDict = json.load(dataJSON)  # Note: .load(), not .loads()!
         
         # Get the location name and forecast-data dataframe from the data dictionary:
-        location, data = extract_hourly_forecast_dataframes_from_dict(dataDict)
+        location, data = extract_hourly_forecast_dataframes_from_dict(dataDict, numeric)
         
         if(not full):  # Remove obsolescent and duplicate columns:
             data = remove_unused_hourly_forecast_columns(data)
@@ -108,11 +114,14 @@ def read_json_file_weatherforecast(fileJSON, full=False, loc=False):
         return data
 
 
-def extract_hourly_forecast_dataframes_from_dict(dataDict):
+def extract_hourly_forecast_dataframes_from_dict(dataDict, numeric):
     """Extract the location and forecast-data Pandas dataframe from a data dictionary.
     
     Parameters:
         dataDict (dict):  The data dictionary to convert.
+        numeric (bool):   Convert dataframe content from strings to numeric/datetime format (default=True).
+                          Set this to False if you intend to write a JSON file that is (nearly) identical
+                          to the original format.
     
     Returns:
         tuple (str, df):  Tuple containing (location, data):
@@ -130,6 +139,38 @@ def extract_hourly_forecast_dataframes_from_dict(dataDict):
     
     # Create Pandas dataframe from list of dictionaries:
     data = pd.DataFrame.from_dict(dataDict['data'])
+    
+    # Convert df elements to numeric values:
+    if(numeric):
+        data['tijd']  =  pd.to_numeric(data['tijd'])
+        data['tijd_nl']  =  pd.to_datetime(data['tijd_nl'], format='%d-%m-%Y %H:%M')
+        data['offset']  =  pd.to_numeric(data['offset'])
+        # data['loc']  =  pd.to_numeric(data['loc'])
+        data['temp']  =  pd.to_numeric(data['temp'])
+        data['winds']  =  pd.to_numeric(data['winds'])
+        data['windb']  =  pd.to_numeric(data['windb'])
+        data['windknp']  =  pd.to_numeric(data['windknp'])
+        data['windkmh']  =  pd.to_numeric(data['windkmh'])
+        data['windr']  =  pd.to_numeric(data['windr'])
+        # data['windrltr']  =  pd.to_numeric(data['windrltr'])
+        data['gust']  =  pd.to_numeric(data['gust'])
+        data['gustb']  =  pd.to_numeric(data['gustb'])
+        data['gustkt']  =  pd.to_numeric(data['gustkt'])
+        data['gustkmh']  =  pd.to_numeric(data['gustkmh'])
+        data['vis']  =  pd.to_numeric(data['vis'])
+        data['neersl']  =  pd.to_numeric(data['neersl'])
+        data['luchtd']  =  pd.to_numeric(data['luchtd'])
+        data['luchtdmmhg']  =  pd.to_numeric(data['luchtdmmhg'])
+        data['luchtdinhg']  =  pd.to_numeric(data['luchtdinhg'])
+        data['rv']  =  pd.to_numeric(data['rv'])
+        data['gr']  =  pd.to_numeric(data['gr'])
+        data['hw']  =  pd.to_numeric(data['hw'])
+        data['mw']  =  pd.to_numeric(data['mw'])
+        data['lw']  =  pd.to_numeric(data['lw'])
+        data['tw']  =  pd.to_numeric(data['tw'])
+        data['cape']  =  pd.to_numeric(data['cape'])
+        data['cond']  =  pd.to_numeric(data['cond'])
+        data['ico']  =  pd.to_numeric(data['ico'])
     
     # print(type(location))
     # print(data)
@@ -216,9 +257,15 @@ def write_json_file_weatherforecast(fileName, location, data):
     fileJSON['data'] = dataDict
     
     # Write the resulting dictionary to a json file:
-    with open(fileName, 'w') as outFile:
-        json.dump(fileJSON, outFile)
-    
+    fileJSON = json.dumps(fileJSON, indent=None, separators=(',',':'), default=str)  # Create a JSON string, even with non-serialisable Timestamps - https://stackoverflow.com/a/36142844/1386750.  This adds " and ecapes existing ones.
+    outFile = open(fileName,'w')
+    outFile.write(fileJSON)
+    outFile.close()
     return
+
+    # with open(fileName, 'w') as outFile:
+    #     json.dump(fileJSON, outFile)
+    # 
+    # return
 
 

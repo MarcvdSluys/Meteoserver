@@ -35,12 +35,14 @@ location = 'Unknown'  # Ensure we always have a location 'name' to write to file
 # Read weather-forecast data from file:
 # data = meteo.read_json_file_weatherforecast('WeatherForecast1.json', full=True)  # Option 1: HARMONIE/HiRLAM (48 (42?) hours)
 # data = meteo.read_json_file_weatherforecast('WeatherForecast2.json')  # Option 2: GFS (4/10 days), useful columns only, no location
-# data, location = meteo.read_json_file_weatherforecast('WeatherForecast2.json', full=True, loc=True)  # Option 2, with ALL columns and location
+# Option 2, with ALL columns and location; don't convert to numerical format, to allow writing to file later:
+# data, location = meteo.read_json_file_weatherforecast('WeatherForecast2.json', full=True, loc=True, numeric=False)
 
 # Get weather-forecast data from server:
 # data = meteo.read_json_url_weatherforecast(myKey, myLocation, model='HARMONIE')  # Option 1: HARMONIE/HiRLAM
 # data = meteo.read_json_url_weatherforecast(myKey, myLocation)  # Option 2 (default): GFS, useful columns only, no location
-data, location = meteo.read_json_url_weatherforecast(myKey, myLocation, full=True, loc=True)  # Option 2, with ALL columns and location
+# Option 2, with ALL columns and location; don't convert to numerical format, to allow writing to file later:
+data, location = meteo.read_json_url_weatherforecast(myKey, myLocation, full=True, loc=True, numeric=False)
 
 # Print the data:
 print(data)
