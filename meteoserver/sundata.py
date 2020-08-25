@@ -129,23 +129,25 @@ def extract_Sun_dataframes_from_dict(dataDict, numeric):
     # Convert the df elements to numeric/datetime types:
     if(numeric):
         # Add date from 'cet' column to sunrise and sunset (while 'cet' is still a string):
-        current.sr = current.cet.str.slice(0,10) + ' ' + current.sr       # Create a string from the first 10 characters of the date + space + time
-        current.sr = pd.to_datetime(current.sr, format='%d-%m-%Y %H:%M')  # String -> datetime
+        if('sr' in current.columns):
+            current.sr = current.cet.str.slice(0,10) + ' ' + current.sr  # Create a string from the first 10 characters of the date + space + time
+            current.sr = pd.to_datetime(current.sr, format='%d-%m-%Y %H:%M',  errors='coerce')  # String -> datetime
         
-        current.ss = current.cet.str.slice(0,10) + ' ' + current.ss       # Create a string from the first 10 characters of the date + space + time
-        current.ss = pd.to_datetime(current.ss, format='%d-%m-%Y %H:%M')  # String -> datetime
+        if('ss' in current.columns):
+            current.ss = current.cet.str.slice(0,10) + ' ' + current.ss  # Create a string from the first 10 characters of the date + space + time
+            current.ss = pd.to_datetime(current.ss, format='%d-%m-%Y %H:%M',  errors='coerce')  # String -> datetime
         
         
-        current.time = pd.to_numeric(current.time).values
-        current.cet  = pd.to_datetime(current.cet, format='%d-%m-%Y %H:%M')
-        current.elev = pd.to_numeric(current.elev).values
-        current.az   = pd.to_numeric(current.az).values
-        current.temp = pd.to_numeric(current.temp).values
-        current.gr   = pd.to_numeric(current.gr).values
-        current.sd   = pd.to_numeric(current.sd).values
-        current.tc   = pd.to_numeric(current.tc).values
-        current.vis  = pd.to_numeric(current.vis).values
-        current.prec = pd.to_numeric(current.prec).values
+        if('time' in current.columns):  current.time = pd.to_numeric(current.time,  errors='coerce').values
+        if('cet'  in current.columns):  current.cet  = pd.to_datetime(current.cet, format='%d-%m-%Y %H:%M',  errors='coerce')
+        if('elev' in current.columns):  current.elev = pd.to_numeric(current.elev,  errors='coerce').values
+        if('az'   in current.columns):  current.az   = pd.to_numeric(current.az,    errors='coerce').values
+        if('temp' in current.columns):  current.temp = pd.to_numeric(current.temp,  errors='coerce').values
+        if('gr'   in current.columns):  current.gr   = pd.to_numeric(current.gr,    errors='coerce').values
+        if('sd'   in current.columns):  current.sd   = pd.to_numeric(current.sd,    errors='coerce').values
+        if('tc'   in current.columns):  current.tc   = pd.to_numeric(current.tc,    errors='coerce').values
+        if('vis'  in current.columns):  current.vis  = pd.to_numeric(current.vis,   errors='coerce').values
+        if('prec' in current.columns):  current.prec = pd.to_numeric(current.prec,  errors='coerce').values
     
     # print(current)
     
@@ -155,19 +157,19 @@ def extract_Sun_dataframes_from_dict(dataDict, numeric):
     
     # Convert the df elements to numeric/datetime types:
     if(numeric):
-        forecast.time = pd.to_numeric(forecast.time).values
-        forecast.cet  = pd.to_datetime(forecast.cet, format='%d-%m-%Y %H:%M')
-        forecast.elev = pd.to_numeric(forecast.elev).values
-        forecast.az   = pd.to_numeric(forecast.az).values
-        forecast.temp = pd.to_numeric(forecast.temp).values
-        forecast.gr   = pd.to_numeric(forecast.gr).values
-        forecast.sd   = pd.to_numeric(forecast.sd).values
-        forecast.tc   = pd.to_numeric(forecast.tc).values
-        forecast.lc   = pd.to_numeric(forecast.lc).values
-        forecast.mc   = pd.to_numeric(forecast.mc).values
-        forecast.hc   = pd.to_numeric(forecast.hc).values
-        forecast.vis  = pd.to_numeric(forecast.vis).values
-        forecast.prec = pd.to_numeric(forecast.prec).values
+        if('time' in forecast.columns):  forecast.time = pd.to_numeric(forecast.time,  errors='coerce').values
+        if('cet'  in forecast.columns):  forecast.cet  = pd.to_datetime(forecast.cet, format='%d-%m-%Y %H:%M',  errors='coerce')
+        if('elev' in forecast.columns):  forecast.elev = pd.to_numeric(forecast.elev,  errors='coerce').values
+        if('az'   in forecast.columns):  forecast.az   = pd.to_numeric(forecast.az,    errors='coerce').values
+        if('temp' in forecast.columns):  forecast.temp = pd.to_numeric(forecast.temp,  errors='coerce').values
+        if('gr'   in forecast.columns):  forecast.gr   = pd.to_numeric(forecast.gr,    errors='coerce').values
+        if('sd'   in forecast.columns):  forecast.sd   = pd.to_numeric(forecast.sd,    errors='coerce').values
+        if('tc'   in forecast.columns):  forecast.tc   = pd.to_numeric(forecast.tc,    errors='coerce').values
+        if('lc'   in forecast.columns):  forecast.lc   = pd.to_numeric(forecast.lc,    errors='coerce').values
+        if('mc'   in forecast.columns):  forecast.mc   = pd.to_numeric(forecast.mc,    errors='coerce').values
+        if('hc'   in forecast.columns):  forecast.hc   = pd.to_numeric(forecast.hc,    errors='coerce').values
+        if('vis'  in forecast.columns):  forecast.vis  = pd.to_numeric(forecast.vis,   errors='coerce').values
+        if('prec' in forecast.columns):  forecast.prec = pd.to_numeric(forecast.prec,  errors='coerce').values
     
     # print(forecast)
     
