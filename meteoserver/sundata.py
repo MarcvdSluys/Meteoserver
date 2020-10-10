@@ -25,7 +25,7 @@ import requests
 
 def read_json_url_sunData(key, location, loc=False, numeric=True):
     """Get the Sun data from the Meteoserver server and return the current-data and forecast dataframes and
-       optionally the location name.
+    optionally the location name.
     
     This uses the "Zon Actueel" Meteoserver API/data.
     
@@ -62,7 +62,7 @@ def read_json_url_sunData(key, location, loc=False, numeric=True):
 
 def read_json_file_sunData(fileJSON, loc=False, numeric=True):
     """Read a Meteoserver Sun-data JSON file from disc and return the current-data and forecast dataframes, and
-       optionally the location name.
+    optionally the location name.
     
     This uses the "Zon Actueel" Meteoserver data.
     
@@ -79,7 +79,6 @@ def read_json_file_sunData(fileJSON, loc=False, numeric=True):
           - current (df):   Pandas dataframe containing current-weather data from a nearby station.
           - forecast (df):  Pandas dataframe containing forecast data for the specified location (or region?).
           - location (str): The location the data are for.
-
     """
     
     with open(fileJSON) as dataJSON:

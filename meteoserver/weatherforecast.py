@@ -35,13 +35,13 @@ def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=Fa
         location (string):  The name of the location (in the Netherlands) to obtain data for (e.g. 'De Bilt').
         model (string):     Weather model to use: 'HARMONIE' or 'GFS' (default: GFS)
     
-                                - HARMONIE: use high-resolution HARMONIE model for BeNeLux and HiRLAM for the rest of
-                                            Europe.  Hourly predictions up to 48 hours in advance.  New data available
-                                            at 5:30, 11:30, 17:30 and 23:30 CE(S)T.
+                                - HARMONIE: use high-resolution HARMONIE model for BeNeLux and HiRLAM for the
+                                  rest of Europe.  Hourly predictions up to 48 hours in advance.  New data
+                                  available at 5:30, 11:30, 17:30 and 23:30 CE(S)T.
     
-                                - GFS: use GFS model for BeNeLux.  Hourly predictions for 4 days, then three-hourly
-                                    predictions for the next 10 days.  New data are available at 0:30, 7:30, 12:30 and
-                                    18:30 CE(S)T.
+                                - GFS: use GFS model for BeNeLux.  Hourly predictions for 4 days, then
+                                  three-hourly predictions for the next 10 days.  New data are available at
+                                  0:30, 7:30, 12:30 and 18:30 CE(S)T.
     
         full (bool):        Return the full dataframe (currently 31 columns).  If false, obsolescent and duplicate 
                             (in non-SI units) columns are removed (currently, 22 columns are returned).  Default: False.
@@ -55,7 +55,8 @@ def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=Fa
     
           - data (df):     Pandas dataframe containing forecast data for the specified location (or region).
           - retLoc (str):  The name of the location the data are for (only returned if loc=True - in this case,
-                           the two return values are returned as a tuple).
+            the two return values are returned as a tuple).
+
     """
     
     # Get online data and return a string containing the json file:
@@ -101,8 +102,9 @@ def read_json_file_weatherforecast(fileJSON, full=False, loc=False, numeric=True
         tuple (df, str):   Tuple containing (data, location):
     
         - data (df):       Pandas dataframe containing forecast data for the specified location (or region).
-        - location (str):  The name of the location the data are for (only returned if loc=True) - in this case,
-                           the two return values are returned as a tuple).
+        - location (str):  The name of the location the data are for (only returned if loc=True) - in this case, 
+          the two return values are returned as a tuple).
+    
     """
     
     with open(fileJSON) as dataJSON:

@@ -82,7 +82,8 @@ meteo.write_json_file_sunData('SunData1.json', location, current, forecast)
 ## Meteoserver pages ##
 
 * [Pypi](https://pypi.org/project/meteoserver/): Meteoserver Python package
-* [GitHub](https://github.com/MarcvdSluys/Meteoserver): Meteoserver source code
+* [GitHub](https://github.com/MarcvdSluys/Meteoserver/): Meteoserver source code
+* [ReadTheDocs](https://meteoserver.readthedocs.io/): Meteoserver documentation
 
 
 ## Author and licence ##

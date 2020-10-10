@@ -18,6 +18,8 @@
 
 
 def print_help_weatherforecast():
+    """Print a brief description for each of the columns for the dataframes containing weather-forecast data."""
+    
     print('')
     print('* Columns in forecast dataframe ("data")')
     print('')
