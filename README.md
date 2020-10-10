@@ -1,8 +1,9 @@
 # Meteoserver #
 
 A Python module to obtain and read Dutch weather data from Meteoserver.nl.  The code is being developped by
-[Marc van der Sluys](http://han.vandersluys.nl/en/) of the department of Sustainable energy of the HAN
-University of Applied Sciences in Arnhem, the Netherlands.
+[Marc van der Sluys](http://han.vandersluys.nl/en/) of the department of Astrophysics at the Radboud
+University Nijmegen, the Netherlands and the department of Sustainable energy of the HAN University of Applied
+Sciences in Arnhem, the Netherlands.
 
 
 ## Installation ##
