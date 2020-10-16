@@ -1,10 +1,10 @@
 # Meteoserver #
 
-![PyPI](https://img.shields.io/pypi/v/meteoserver?color=%230A0&style=plastic)
-![PyPI - Downloads](https://img.shields.io/pypi/dm/meteoserver?style=plastic)
+![PyPI](https://img.shields.io/pypi/v/meteoserver?color=%230A0)
+![PyPI - Downloads](https://img.shields.io/pypi/dm/meteoserver)
 [![Documentation
 Status](https://readthedocs.org/projects/meteoserver/badge/?version=latest)](https://meteoserver.readthedocs.io/en/latest/?badge=latest)
-![PyPI - License](https://img.shields.io/pypi/l/meteoserver?color=%230A0&style=plastic)
+![PyPI - License](https://img.shields.io/pypi/l/meteoserver?color=%230A0)
 
 A Python module to obtain and read Dutch weather data from Meteoserver.nl.  The code is being developped by
 [Marc van der Sluys](http://han.vandersluys.nl/en/) of the department of Astrophysics at the Radboud
