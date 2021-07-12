@@ -1,4 +1,4 @@
-#  Copyright (c) 2020  Marc van der Sluys - marc.vandersluys.nl
+#  Copyright (c) 2020-2021  Marc van der Sluys - marc.vandersluys.nl
 #  
 #  This file is part of the Meteoserver Python package, containing a Python module to obtain and read Dutch
 #  weather data from Meteoserver.nl.  See: https://github.com/MarcvdSluys/Meteoserver
@@ -13,7 +13,8 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to print some basic documentation.
+"""
+    Functions to print some basic documentation.
 """
 
 
@@ -89,7 +90,10 @@ def print_help_sunData():
     print('| az      | current azimuth of the Sun (°; N=0, E=90)                  |')
     print('| cet     | local time in the Netherlands (CET/CEST)                   |')
     print('| temp    | temperature (°C)                                           |')
-    print('| gr      | global (horizontal?) radiation intensity (W/m²)            |')
+    print('| gr      | global (horizontal?) radiation intensity (J/hr/cm²)        |')
+    print('|         |     (WAS IN W/m² until 2021-06-16!!!)                      |')
+    print('| gr_w    | global (horizontal?) radiation intensity (W/m²)            |')
+    print('|         |     NEW since 2021-06-17!!!                                |')
     print('| sd      | number of sunshine minutes in the current hour             |')
     print('| tc      | total cloud cover (%)                                      |')
     print('| vis     | visibility (meters)                                        |')
@@ -108,7 +112,10 @@ def print_help_sunData():
     print('| elev | Sun altitude for the start of the current hour (°)            |')
     print('| az   | Sun azimuth for the start of the current hour (°; N=0, E=90)  |')
     print('| temp | temperature (°C)                                              |')
-    print('| gr   | global (horizontal?) radiation intensity (W/m²)               |')
+    print('| gr   | global (horizontal?) radiation intensity (J/hr/cm²)           |')
+    print('|      |     (WAS IN W/m² until 2021-06-16!!!)                         |')
+    print('| gr_w | global (horizontal?) radiation intensity (W/m²)               |')
+    print('|      |     NEW since 2021-06-17!!!                                   |')
     print('| sd   | number of sunshine minutes in the current hour                |')
     print('| tc   | total cloud cover (%)                                         |')
     print('| lc   | low-cloud cover (%)                                           |')

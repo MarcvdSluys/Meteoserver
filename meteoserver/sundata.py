@@ -1,4 +1,4 @@
-#  Copyright (c) 2020  Marc van der Sluys - marc.vandersluys.nl
+#  Copyright (c) 2020-2021  Marc van der Sluys - marc.vandersluys.nl
 #  
 #  This file is part of the Meteoserver Python package, containing a Python module to obtain and read Dutch
 #  weather data from Meteoserver.nl.  See: https://github.com/MarcvdSluys/Meteoserver
@@ -13,8 +13,8 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to obtain, read and write four-day sun-forecast ("Zon Actueel") data from Meteoserver.nl.
-
+"""
+    Functions to obtain, read and write four-day sun-forecast ("Zon Actueel") data from Meteoserver.nl.
 """
 
 
@@ -143,6 +143,7 @@ def extract_Sun_dataframes_from_dict(dataDict, numeric):
         if('az'   in current.columns):  current.az   = pd.to_numeric(current.az,    errors='coerce').values
         if('temp' in current.columns):  current.temp = pd.to_numeric(current.temp,  errors='coerce').values
         if('gr'   in current.columns):  current.gr   = pd.to_numeric(current.gr,    errors='coerce').values
+        if('gr_w' in current.columns):  current.gr_w = pd.to_numeric(current.gr_w,  errors='coerce').values  # New since 2021-06-17!
         if('sd'   in current.columns):  current.sd   = pd.to_numeric(current.sd,    errors='coerce').values
         if('tc'   in current.columns):  current.tc   = pd.to_numeric(current.tc,    errors='coerce').values
         if('vis'  in current.columns):  current.vis  = pd.to_numeric(current.vis,   errors='coerce').values
@@ -162,6 +163,7 @@ def extract_Sun_dataframes_from_dict(dataDict, numeric):
         if('az'   in forecast.columns):  forecast.az   = pd.to_numeric(forecast.az,    errors='coerce').values
         if('temp' in forecast.columns):  forecast.temp = pd.to_numeric(forecast.temp,  errors='coerce').values
         if('gr'   in forecast.columns):  forecast.gr   = pd.to_numeric(forecast.gr,    errors='coerce').values
+        if('gr_w' in forecast.columns):  forecast.gr_w = pd.to_numeric(forecast.gr_w,  errors='coerce').values  # New since 2021-06-17!
         if('sd'   in forecast.columns):  forecast.sd   = pd.to_numeric(forecast.sd,    errors='coerce').values
         if('tc'   in forecast.columns):  forecast.tc   = pd.to_numeric(forecast.tc,    errors='coerce').values
         if('lc'   in forecast.columns):  forecast.lc   = pd.to_numeric(forecast.lc,    errors='coerce').values

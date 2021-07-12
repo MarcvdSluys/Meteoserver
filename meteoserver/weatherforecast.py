@@ -1,4 +1,4 @@
-#  Copyright (c) 2020  Marc van der Sluys - marc.vandersluys.nl
+#  Copyright (c) 2020-2021  Marc van der Sluys - marc.vandersluys.nl
 #  
 #  This file is part of the Meteoserver Python package, containing a Python module to obtain and read Dutch
 #  weather data from Meteoserver.nl.  See: https://github.com/MarcvdSluys/Meteoserver
@@ -13,7 +13,8 @@
 #  <http://www.gnu.org/licenses/>.
 
 
-"""Functions to obtain, read and write 2 (HARMONIE) or 4-10 (GFS) day hourly weather-forecast
+"""
+   Functions to obtain, read and write 2 (HARMONIE) or 4-10 (GFS) day hourly weather-forecast
    ("Uurverwachting") data from Meteoserver.nl.
 """
 
