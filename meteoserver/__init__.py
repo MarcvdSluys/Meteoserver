@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #  Copyright (c) 2020  Marc van der Sluys - marc.vandersluys.nl
 #   
 #  This file is part of the Meteoserver Python package, containing a Python module to obtain and read Dutch
@@ -23,11 +24,8 @@ GitHub page](https://github.com/MarcvdSluys/Meteoserver).
 """
 
 
-name = "meteoserver"
+name = 'meteoserver'
 
 from .weatherforecast import *
 from .sundata import *
 from .help import *
-
-
-

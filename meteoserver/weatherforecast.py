@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #  Copyright (c) 2020-2021  Marc van der Sluys - marc.vandersluys.nl
 #  
 #  This file is part of the Meteoserver Python package, containing a Python module to obtain and read Dutch
@@ -66,7 +67,7 @@ def read_json_url_weatherforecast(key, location, model='GFS', full=False, loc=Fa
     elif(model == 'HARMONIE'):
         dataJSON = requests.get('https://data.meteoserver.nl/api/uurverwachting.php?locatie='+location+'&key='+key).text
     else:
-        print("read_json_url_weatherforecast(): error: unknown model: "+model+'; please choose between HARMONIE and GFS',
+        print('read_json_url_weatherforecast(): error: unknown model: '+model+'; please choose between HARMONIE and GFS',
               file=sys.stderr)
         exit(1)
         
@@ -277,5 +278,3 @@ def write_json_file_weatherforecast(fileName, location, data):
     #     json.dump(fileJSON, outFile)
     # 
     # return
-
-
