@@ -139,7 +139,7 @@ def extract_Sun_dataframes_from_dict(dataDict, numeric):
         
         
         if('time' in current.columns):  current.time = pd.to_numeric(current.time,  errors='coerce').values
-        if('cet'  in current.columns):  current.cet  = pd.to_datetime(current.cet, format='%d-%m-%Y %H:%M',  errors='coerce')
+        if('cet'  in current.columns):  current.cet  = pd.to_datetime(current.cet,  format='%d-%m-%Y %H:%M',  errors='coerce')
         if('elev' in current.columns):  current.elev = pd.to_numeric(current.elev,  errors='coerce').values
         if('az'   in current.columns):  current.az   = pd.to_numeric(current.az,    errors='coerce').values
         if('temp' in current.columns):  current.temp = pd.to_numeric(current.temp,  errors='coerce').values
@@ -159,7 +159,7 @@ def extract_Sun_dataframes_from_dict(dataDict, numeric):
     # Convert the df elements to numeric/datetime types:
     if(numeric):
         if('time' in forecast.columns):  forecast.time = pd.to_numeric(forecast.time,  errors='coerce').values
-        if('cet'  in forecast.columns):  forecast.cet  = pd.to_datetime(forecast.cet, format='%d-%m-%Y %H:%M',  errors='coerce')
+        if('cet'  in forecast.columns):  forecast.cet  = pd.to_datetime(forecast.cet,  format='%d-%m-%Y %H:%M',  errors='coerce')
         if('elev' in forecast.columns):  forecast.elev = pd.to_numeric(forecast.elev,  errors='coerce').values
         if('az'   in forecast.columns):  forecast.az   = pd.to_numeric(forecast.az,    errors='coerce').values
         if('temp' in forecast.columns):  forecast.temp = pd.to_numeric(forecast.temp,  errors='coerce').values

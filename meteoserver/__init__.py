@@ -16,10 +16,13 @@
 
 """Meteoserver module
 
-Meteoserver contains a Python module to obtain and read Dutch weather data from Meteoserver.nl.  The
-meteoserver package can be used under the conditions of the GPLv3 licence.  These pages contain the API
-documentation.  For more information on the Python package, licence and source code, see the [Meteoserver
-GitHub page](https://github.com/MarcvdSluys/Meteoserver).
+Meteoserver contains a Python module to obtain and read Dutch weather data from Meteoserver.nl.  The code
+is being developed by `Marc van der Sluys <http://han.vandersluys.nl/en/>`_ of the department of Astrophysics
+at the Radboud University Nijmegen, the Netherlands and the department of Sustainable energy of the HAN
+University of Applied Sciences in Arnhem, the Netherlands.  The Meteoserver package can be used under the
+conditions of the GPLv3 licence.  These pages contain the API documentation.  For more information on the
+Python package, licence and source code, see the
+`Meteoserver GitHub page <https://github.com/MarcvdSluys/Meteoserver>`_.
 
 """
 

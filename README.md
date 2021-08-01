@@ -6,10 +6,11 @@
 Status](https://readthedocs.org/projects/meteoserver/badge/?version=latest)](https://meteoserver.readthedocs.io/en/latest/?badge=latest)
 ![PyPI - License](https://img.shields.io/pypi/l/meteoserver?color=%230A0)
 
-A Python module to obtain and read Dutch weather data from Meteoserver.nl.  The code is being developped by
+A Python module to obtain and read Dutch weather data from Meteoserver.nl.  The code is being developed by
 [Marc van der Sluys](http://han.vandersluys.nl/en/) of the department of Astrophysics at the Radboud
 University Nijmegen, the Netherlands and the department of Sustainable energy of the HAN University of Applied
-Sciences in Arnhem, the Netherlands.
+Sciences in Arnhem, the Netherlands.  The Meteoserver package can be used under the conditions of the GPLv3
+licence.
 
 
 ## Installation ##
