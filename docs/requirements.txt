@@ -1,0 +1,4 @@
+meteoserver
+pandas
+Requests==2.31.0
+sphinx-rtd-theme
