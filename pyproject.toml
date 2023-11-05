@@ -7,7 +7,7 @@ packages = ["meteoserver"]
 
 [project]
 name = "meteoserver"
-version = "0.0.17"
+version = "0.0.18"
 authors = [ { name="Marc van der Sluys", email="git@vandersluys.nl" } ]
 description = "A Python module to obtain and read Dutch weather data from Meteoserver.nl"
 readme   = "README.md"
